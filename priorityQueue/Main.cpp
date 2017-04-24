@@ -5,7 +5,6 @@
 #include "randNumListGen.h";
 #include "pQueueChunkList.h";
 #include "Utilities.h";
-#include "quickSort.h";
 #include <utility>
 #include "insertSort.h";
 

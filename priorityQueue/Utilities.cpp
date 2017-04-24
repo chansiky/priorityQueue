@@ -1,5 +1,5 @@
 #include "Utilities.h"
-#include <utility>
+
 
 template <typename _T>
 void printVector(std::vector<_T> v_T)
@@ -29,12 +29,6 @@ void pauseConsole() {
 }
 
 template <typename _A, typename _B>
-void formPairs(_A a, _B b){
-	
-}
-
-
-template <typename _A, typename _B>
 std::vector<std::pair <_A,_B>> convertTwoVectorsToVectorOfPairs(std::vector<_A> v_A, std::vector<_B> v_B) {
 	int maxSize;
 	std::vector<std::pair<_A, _B>> v_Pair;
@@ -48,7 +42,6 @@ std::vector<std::pair <_A,_B>> convertTwoVectorsToVectorOfPairs(std::vector<_A> 
 	}
 	return v_Pair;
 }
-
 
 template <typename _A, typename _B>
 void printVectorOfPairs(std::vector<std::pair<_A, _B>> vPair) {

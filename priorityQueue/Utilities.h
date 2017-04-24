@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <utility>
 
 ////a file to help test bugs
 ////in this case to help generate a sorted vector of pairs

@@ -24,11 +24,8 @@
     <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="quickSort.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="insertSort.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -42,9 +39,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="quickSort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="insertSort.cpp">
