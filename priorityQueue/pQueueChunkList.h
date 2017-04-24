@@ -24,8 +24,8 @@ public:
 	struct chunk {
 	public:
 		std::pair<int, _T> arrKV[LIST_LENGTH];
-		chunk* prev = NULL;
-		chunk* next = NULL;////now we have to backtrack and add a next pointer to everything.
+		chunk *prev = NULL;
+		chunk *next = NULL;////now we have to backtrack and add a next pointer to everything.
 		int count = 0;
 	};
 	struct chunkNull : chunk {
@@ -42,6 +42,17 @@ public:
 	//include a sizeof command that checks the bytes used/memory used/// crucial for this step for you to learn how memory works.
 	//redistributes _TPairs into DIVISOR/LIST_LENGTH long chunks;
 	void redistribute();
+
+	bool isFilled();
+
+
+	//methods used to debeug:  ignore below:
+	bool nullChunkCheck(chunk *aChunk);
+	chunk* getHead();
+	chunk* getTail();
+	void nullPtrCheckCode();
+
+
 private:
 	chunk* head;
 	chunk* tail;
@@ -55,7 +66,8 @@ private:
 	//sub for finding the index within the chunk where the object should go.  the index is the arr[index] as in count starts from 0;
 	int indexInChunk(int priority, chunk* chunkA);
 	void insert_TPair(std::pair<int,_T> _TPair, chunk* a);
-	void removeFirstIndex(chunk* a);
+	void removeFirstIndex();
+
 };
 
 #include "pQueueChunkList.cpp"

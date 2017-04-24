@@ -5,10 +5,19 @@ pQueueChunkList<_T>::pQueueChunkList() {
 	head = NULL;
 	tail = NULL;
 }
+
+
+//untested code below:
 template<typename _T>
 pQueueChunkList<_T>::~pQueueChunkList() {
-	//todo:
-	//delete every chunk that exists in the memory
+	chunk* a = tail;
+	chunk* b = NULL;
+
+	while (a != NULL) {
+		b = a->prev;
+		delete a;
+		a = b;
+	}
 }
 template<typename _T>
 void pQueueChunkList<_T>::enqueue(int priority, _T val) {
@@ -49,16 +58,38 @@ typename pQueueChunkList<_T>::chunk* pQueueChunkList<_T>::findChunk(int priority
 	int min;
 	min = tail->arrKV[0].first;
 	chunk* temp = tail;
-	while (min >= priority && temp->prev != NULL) {
-		min = temp->arrKV[0].first;
+	while (priority <= min && temp->prev != NULL) {
+		//there used to be a huge sorting bug because the two lines below were switched.  always think about the order of operations.
 		temp = temp->prev;
+		min = temp->arrKV[0].first;
 	}
 	return temp;
 }
 
+
+//inserts an item into the array.
+template <typename _T>
+void pQueueChunkList<_T>::insert_TPair(std::pair<int, _T> _TPair, typename pQueueChunkList<_T>::chunk* a) {
+	//find the index of the array in the chunk to place the value into
+	int priority = _TPair.first;
+	int index = indexInChunk(priority, a);
+	int i = (a->count - 1);
+	while (i >= index) {
+		a->arrKV[i + 1] = a->arrKV[i];
+		--i;
+		////why does i turn into -1?
+	}
+
+	i++;
+	a->arrKV[i] = _TPair;
+	++(a->count);
+	return;
+}
+
+
 template<typename _T>
 int pQueueChunkList<_T>::indexInChunk(int priority,typename pQueueChunkList<_T>::chunk* chunkA) {
-	int i = (chunkA->count - 1);
+	int i = (chunkA->count - 1);//count -1 because count is the number, the size of elements starting from 1.
 	while (priority < ((chunkA->arrKV[i]).first) && i >= 0) {
 		--i;
 	}
@@ -84,29 +115,6 @@ int pQueueChunkList<_T>::indexInChunk(int priority,typename pQueueChunkList<_T>:
 	*/
 }
  
-//inserts an item into the array.
-template <typename _T>
-void pQueueChunkList<_T>::insert_TPair(std::pair<int, _T> _TPair, typename pQueueChunkList<_T>::chunk* a) {
-	//find the index of the array in the chunk to place the value into
-	int priority = _TPair.first;
-	int index = indexInChunk(priority, a);// is the bug from this returning the wrong index or
-	//the code in this function going down not far enough?
-
-	// shift down all elements of the array from the index down
-
-	int i = (a->count - 1);
-	while (i >= index) {
-		a->arrKV[i + 1] = a->arrKV[i];
-		--i;
-		////why does i turn into -1?
-	}
-
-	i++;
-	a->arrKV[i] = _TPair;
-	++(a->count);
-	return;
-}
-
 template <typename _T>
 bool pQueueChunkList<_T>::isChunkFull(chunk* a) {
 	if (a->count >= LIST_LENGTH) {
@@ -126,16 +134,21 @@ typename pQueueChunkList<_T>::chunk* pQueueChunkList<_T>::splitChunk(chunk* a, i
 		//update chunk 1 count
 		//chunk1.prev should be correct;  double check if chunklist connects forwards or backwards
 	//connect chunk3(outside) to chunk 2;
+
+	//rewire... if a == tail(if the chunk we are splitting is the last chunk) then only rewire a->next; else rewire a->next and a->next->prev;
 	chunk* newChunk = new chunk;
+		newChunk->prev = a;
+		newChunk->next = a->next;
+
 	if (tail == a) {
 		tail = newChunk;
+		a->next = newChunk;
+	}
+	else {
+		a->next->prev = newChunk;
+		a->next = newChunk;
 	}
 	int j = 0; // j exists to account for integer division rounding error; the value of j starts from 1; if correct integer division takes place j = LENGTH_DIV;
-
-	newChunk->next = a->next;
-	newChunk->prev = a;
-	a->next = newChunk;
-////
 
 	for (int i = (LIST_LENGTH-1); i > (LENGTH_DIV-1); i--) {
 		newChunk->arrKV[i - LENGTH_DIV] = a->arrKV[i];
@@ -155,7 +168,6 @@ typename pQueueChunkList<_T>::chunk* pQueueChunkList<_T>::splitChunk(chunk* a, i
 	}
 }
 
-
 template <typename _T>
 _T pQueueChunkList<_T>::peek() {
 	if (head != NULL) {
@@ -168,25 +180,22 @@ _T pQueueChunkList<_T>::peek() {
 }
 
 template <typename _T>
-_T pQueueChunkList<_T>::dequeue(int &priority) {
+bool pQueueChunkList<_T>::isFilled() {
 	if (head != NULL) {
-		priority = head->arrKV[0].first;
-		_T _Tval = head->arrKV[0].second;
-		removeFirstIndex(head);
-		return _Tval;
+		return true;
 	}
 	else {
-		std::cout << "list is empty" << std::endl;
-
+		return false;
 	}
 }
 
 template <typename _T>
-_T pQueueChunkList<_T>::dequeue() {
+_T pQueueChunkList<_T>::dequeue(int &priority) {
 	if (head != NULL) {
-		_T temp = head->arrKV[0].second;
-		removeFirstIndex(head);
-		return temp;
+		priority = head->arrKV[0].first;
+		_T _Tval = head->arrKV[0].second;
+		removeFirstIndex();
+		return _Tval;
 	}
 	else {
 		std::cout << "list is empty" << std::endl;
@@ -194,28 +203,54 @@ _T pQueueChunkList<_T>::dequeue() {
 	}
 }
 
-
-
 template <typename _T>
-void pQueueChunkList<_T>::removeFirstIndex(chunk* a) {
-	if ((a->count - 1) <= 0) {
-		head = a->next;
-		delete a;
+_T pQueueChunkList<_T>::dequeue() {
+	if (head != NULL) {
+		_T temp = head->arrKV[0].second;
+		removeFirstIndex();
+		return temp;
 	}
 	else {
-		for (int i = 0; i < a->count; i++) {
-			a->arrKV[i] = a->arrKV[i + 1];
+		std::cout << "list is empty" << std::endl;
+		return NULL;
+	}
+}
+template <typename _T>
+void pQueueChunkList<_T>::removeFirstIndex() {
+	//if the size of the head chunk is 1 then delete the chunk and make "head" point to the next chunk in the list.
+	if ((head->count - 1) <= 0) {
+		chunk *a;
+		a = head;
+
+		//if this is the last chunk in the list, as in head->next == null, then make head and tail both equal to NULL
+		if (head->next == NULL) {
+			head = NULL;
+			tail = NULL;
+
+			delete a;
+		}
+		else {
+			head = head->next;
+			head->prev = NULL;
+			delete a;
+		}
+		return;
+	}
+	else {
+		for (int i = 0; i < head->count; i++) {
+			head->arrKV[i] = head->arrKV[i + 1];
 		}
 	}
-	--(a->count);
+	--(head->count);
 	return;
 }
 
+//problem solved:  issue was that the pointer was not pointing to a NULL address.  this was not because the NULL check wasn't working, rather, the pointers were not pointing to NULL because the rewiring process during split chunk was not written properly.  Essentially, the NULL check should work.  I just happened to think that error in reading an address in memory meant the same thing ax  0x00000...
 template<typename _T>
 int pQueueChunkList<_T>::size() {
 	int size = 0;
 	chunk *a = tail;
-	while (a) { // this if condition is causing problems.  basically the chunk of head->prev does not equal null.  ?? why not?  //null values not working in 
+	while (a != NULL) {
 		size += a->count;
 		a = a->prev;
 		if (a == NULL) break;
@@ -223,4 +258,37 @@ int pQueueChunkList<_T>::size() {
 	return size;
 }
 
+template<typename _T>
+bool pQueueChunkList<_T>::nullChunkCheck(chunk *aChunk) {
 
+	if (aChunk != NULL) {
+		std::cout << "the size of this chunk is : " << aChunk->count << std::endl;
+		return true;
+	}
+	else if (aChunk ==NULL)
+	{
+		std::cout << "chunk is null" << std::endl;
+		return false;
+	}
+	return false;
+}
+
+template<typename _T>
+typename pQueueChunkList<_T>::chunk* pQueueChunkList<_T>::getHead() {
+	return head;
+}
+
+template<typename _T>
+typename pQueueChunkList<_T>::chunk*  pQueueChunkList<_T>::getTail() {
+	return tail;
+}
+
+template<typename _T>
+void pQueueChunkList<_T>::nullPtrCheckCode() {
+	nullChunkCheck(head);
+	chunk *a;
+
+	a = head->prev;
+	nullChunkCheck(a);
+	nullChunkCheck(tail);
+}

@@ -10,13 +10,12 @@
 #include "insertSort.h";
 
 ////TODO:
-//redistribute
-//size();
-//isEmpty();
-//sizeof();
+//redistribute()  --- redistributes all items in the list so that every chunk is x number of items long.
+
+//sizeof(); ---- sizeof to check how much memory is being used
 
 
-
+void dequeueChunkList(pQueueChunkList<std::string> &chunkList);
 void main() {
 	int size = 200;
 
@@ -24,135 +23,61 @@ void main() {
 	std::vector<std::string> vStr =	getVStrFromFile("EnglishWords.dat",size); //read "size" number of elements from the file;
 	std::vector < std::pair<int,std::string>> vPair = convertTwoVectorsToVectorOfPairs(vInt, vStr);//combine the integers and names into a pair
 
-	insertionSort(vPair); //sort the values in the pairs
+	//insertionSort(vPair); //sort the values in the pairs
 
 	pQueueChunkList<std::string> chunkList;
 	
-	std::string abc = "abc";
-	chunkList.enqueue(200, abc);
-	chunkList.enqueue(20, abc);
-	chunkList.enqueue(40, std::string("joker"));
-	chunkList.enqueue(263, abc);
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(16, std::string("joker"));
-	chunkList.enqueue(773, abc);
-	chunkList.enqueue(234, abc);
-	chunkList.enqueue(142, std::string("joker"));
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(98, abc);
-	chunkList.enqueue(45, std::string("joker"));
-	chunkList.enqueue(3, abc);
-	chunkList.enqueue(277, abc);
-	chunkList.enqueue(430, std::string("joker"));
-	chunkList.enqueue(8, abc);
-	chunkList.enqueue(74, abc);
-	chunkList.enqueue(37, std::string("joker"));
-	chunkList.enqueue(200, abc);
-	chunkList.enqueue(20, abc);
-	chunkList.enqueue(40, std::string("joker"));
-	chunkList.enqueue(263, abc);
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(16, std::string("joker"));
-	chunkList.enqueue(773, abc);
-	chunkList.enqueue(234, abc);
-	chunkList.enqueue(142, std::string("joker"));
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(98, abc);
-	chunkList.enqueue(45, std::string("joker"));
-	chunkList.enqueue(3, abc);
-	chunkList.enqueue(277, abc);
-	chunkList.enqueue(430, std::string("joker"));
-	chunkList.enqueue(8, abc);
-	chunkList.enqueue(74, abc);
-	chunkList.enqueue(37, std::string("joker"));
-	chunkList.enqueue(200, abc);
-	chunkList.enqueue(20, abc);
-	chunkList.enqueue(40, std::string("joker"));
-	chunkList.enqueue(263, abc);
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(16, std::string("joker"));
-	chunkList.enqueue(773, abc);
-	chunkList.enqueue(234, abc);
-	chunkList.enqueue(142, std::string("joker"));
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(98, abc);
-	chunkList.enqueue(45, std::string("joker"));
-	chunkList.enqueue(3, abc);
-	chunkList.enqueue(277, abc);
-	chunkList.enqueue(430, std::string("joker"));
-	chunkList.enqueue(8, abc);
-	chunkList.enqueue(74, abc);
-	chunkList.enqueue(37, std::string("joker"));
-	chunkList.enqueue(200, abc);
-	chunkList.enqueue(20, abc);
-	chunkList.enqueue(40, std::string("joker"));
-	chunkList.enqueue(263, abc);
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(16, std::string("joker"));
-	chunkList.enqueue(773, abc);
-	chunkList.enqueue(234, abc);
-	chunkList.enqueue(142, std::string("joker"));
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(98, abc);
-	chunkList.enqueue(45, std::string("joker"));
-	chunkList.enqueue(3, abc);
-	chunkList.enqueue(277, abc);
-	chunkList.enqueue(430, std::string("joker"));
-	chunkList.enqueue(8, abc);
-	chunkList.enqueue(74, abc);
-	chunkList.enqueue(37, std::string("joker"));
-	chunkList.enqueue(200, abc);
-	chunkList.enqueue(20, abc);
-	chunkList.enqueue(40, std::string("joker"));
-	chunkList.enqueue(263, abc);
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(16, std::string("joker"));
-	chunkList.enqueue(773, abc);
-	chunkList.enqueue(234, abc);
-	chunkList.enqueue(142, std::string("joker"));
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(98, abc);
-	chunkList.enqueue(45, std::string("joker"));
-	chunkList.enqueue(3, abc);
-	chunkList.enqueue(277, abc);
-	chunkList.enqueue(430, std::string("joker"));
-	chunkList.enqueue(8, abc);
-	chunkList.enqueue(74, abc);
-	chunkList.enqueue(37, std::string("joker"));
-	chunkList.enqueue(200, abc);
-	chunkList.enqueue(20, abc);
-	chunkList.enqueue(40, std::string("joker"));
-	chunkList.enqueue(263, abc);
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(16, std::string("joker"));
-	chunkList.enqueue(773, abc);
-	chunkList.enqueue(234, abc);
-	chunkList.enqueue(142, std::string("joker"));
-	chunkList.enqueue(33, abc);
-	chunkList.enqueue(98, abc);
-	chunkList.enqueue(45, std::string("joker"));
-	chunkList.enqueue(3, abc);
-	chunkList.enqueue(277, abc);
-	chunkList.enqueue(430, std::string("joker"));
-	chunkList.enqueue(8, abc);
-	chunkList.enqueue(74, abc);
-	chunkList.enqueue(37, std::string("joker"));
-
+	std::vector<std::pair<int, std::string>>::iterator vPairIt;
+	for (vPairIt = vPair.begin(); vPairIt != vPair.end(); vPairIt++) {
+		chunkList.enqueue((*vPairIt).first, (*vPairIt).second);
+	}
+	
 	int priority = 0;
 	for (int i = 0; i < 30; i++){
-		std::cout << chunkList.dequeue(priority);
+		std::cout << chunkList.dequeue(priority) << " ";
 		std::cout << priority << std::endl;
 	}
 
 	std::cout << "size of queue is:" << chunkList.size() << std::endl;
 
-	std::cout << "   kjhgkjhg   " << std::endl;
+	chunkList.nullPtrCheckCode();
 
+	std::cout << " kjhgkjhg " << std::endl;
 
+	dequeueChunkList(chunkList);
 
 	printVector(vInt);
 	printVector(vStr);
 	pauseConsole();
 	printVectorOfPairs(vPair);
 	pauseConsole();
+}
+
+void dequeueChunkList(pQueueChunkList<std::string> &chunkList) {
+	int a = -1;
+	while (true) {
+
+		std::cout << "Press any key to dequeue, or 0 to exit" << std::endl;
+		a = std::cin.get();
+		if (a == 0) {
+			break;
+		}
+
+		
+		else {
+			int priority = 0;
+			if (chunkList.isFilled()) {
+				std::cout << chunkList.dequeue(priority) << " : ";
+				std::cout << priority << std::endl;
+
+				std::cout << "size of queue is:" << chunkList.size() << std::endl;
+			}
+			else {
+
+				std::cout << "queue is empty" << std::endl;
+			}
+
+
+		}
+	}
 }
