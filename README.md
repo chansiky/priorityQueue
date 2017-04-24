@@ -11,3 +11,8 @@ insertSort.cpp
 pQueueChunkList.cpp 
 
 randNumListGen.cpp 
+
+
+
+
+file is currently very messy, annotations and cleanup will be done shortly.
