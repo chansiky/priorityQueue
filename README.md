@@ -4,10 +4,10 @@ Priority Queue written as a Chunk List
 
 The following files must be exluded from the build because they use templates:
 
-Utilities.cpp /n
+Utilities.cpp 
 
-insertSort.cpp /n
+insertSort.cpp 
 
-pQueueChunkList.cpp /n
+pQueueChunkList.cpp 
 
-randNumListGen.cpp /n
+randNumListGen.cpp 
