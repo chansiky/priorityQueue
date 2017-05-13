@@ -28,10 +28,6 @@ public:
 		chunk *next = NULL;////now we have to backtrack and add a next pointer to everything.
 		int count = 0;
 	};
-	struct chunkNull : chunk {
-
-
-	};
 	pQueueChunkList();
 	~pQueueChunkList();
 	void enqueue(int priority, _T val);
@@ -41,10 +37,10 @@ public:
 	int size();
 	//include a sizeof command that checks the bytes used/memory used/// crucial for this step for you to learn how memory works.
 	//redistributes _TPairs into DIVISOR/LIST_LENGTH long chunks;
-	void redistribute();
+	//void redistribute();
 
 	bool isFilled();
-
+	bool isEmpty();
 
 	//methods used to debeug:  ignore below:
 	bool nullChunkCheck(chunk *aChunk);

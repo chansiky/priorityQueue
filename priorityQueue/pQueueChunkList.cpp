@@ -6,7 +6,6 @@ pQueueChunkList<_T>::pQueueChunkList() {
 	tail = NULL;
 }
 
-
 //untested code below:
 template<typename _T>
 pQueueChunkList<_T>::~pQueueChunkList() {
@@ -19,6 +18,7 @@ pQueueChunkList<_T>::~pQueueChunkList() {
 		a = b;
 	}
 }
+
 template<typename _T>
 void pQueueChunkList<_T>::enqueue(int priority, _T val) {
 	if (head == NULL) {//if there are no items in the list
@@ -180,8 +180,8 @@ _T pQueueChunkList<_T>::peek() {
 }
 
 template <typename _T>
-bool pQueueChunkList<_T>::isFilled() {
-	if (head != NULL) {
+bool pQueueChunkList<_T>::isEmpty() {
+	if (head == NULL) {
 		return true;
 	}
 	else {

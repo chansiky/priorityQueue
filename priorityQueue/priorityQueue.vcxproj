@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="insertSort.h" />
     <ClInclude Include="pQueueChunkList.h" />
+    <ClInclude Include="pQueueHeap.h" />
     <ClInclude Include="randNumListGen.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
@@ -121,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pQueueChunkList.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="pQueueHeap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="randNumListGen.cpp">

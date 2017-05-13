@@ -27,6 +27,9 @@
     <ClInclude Include="insertSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pQueueHeap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pQueueChunkList.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="insertSort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pQueueHeap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
